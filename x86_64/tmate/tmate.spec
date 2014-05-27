@@ -2,7 +2,7 @@
 
 Name:           %{realname}
 Version:        1.8.9
-Release:        1%{?dist}
+Release:        4%{?dist}
 Summary:        Collaborative TMUX session server
 
 Group:          Development/Languages
@@ -50,18 +50,21 @@ make install
 LDFLAGS="-L/usr/local/lib -R/usr/local/lib" ./configure
 LDFLAGS="-L/usr/local/lib -R/usr/local/lib" CPPFLAGS="-I/usr/local/lib" make
 
-%install
-%{__rm} -rf $RPM_BUILD_ROOT
-%{__make} DESTDIR=$RPM_BUILD_ROOT install
-
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
 
+%install
+make DESTDIR=%{buildroot} install
+
 %files
 %defattr(-,root,root)
-/usr/local/bin/tmate-slave
-/usr/local/share/man/man1/tmate.1
+%doc CHANGES FAQ README-tmux README.md
+%{_bindir}/tmate
+%{_mandir}/man1/tmate.1*
 
 %changelog
+* Tue May 27 2014 Mike Mackintosh <m@zyp.io> - 1.8.9-4
+- fixing install script
+
 * Thu Apr 24 2014 Mike Mackintosh <m@zyp.io> - 1.8.9-1
 - Initial RPM
